@@ -1,0 +1,2 @@
+* TODO figure out a nice way to capture runes at point
+* TODO figure out packaging & proper README

@@ -11,7 +11,7 @@ for the term to show information about."
   (interactive (list (hoon-assist--thing-at-point)))
   (let ((definition (hoon-assist--definition term)))
     (if (null definition)
-        (message "nothing for %s, sorry!" term)
+        (message "Cannot assist with %s, sorry!" term)
 
       (or (fboundp 'libxml-parse-html-region)
           (error "This function requires Emacs to be compiled with libxml2"))
@@ -51,7 +51,7 @@ for the term to show information about."
   (setq buffer-read-only t))
 
 (defun hoon-assist--thing-at-point ()
-  (let* ((at-point (symbol-at-point)))
+  (let* ((at-point (thing-at-point 'symbol)))
     (if (or current-prefix-arg (null at-point))
         (completing-read "Term: "
                          (hash-table-keys (hoon-assist--ensure-dictionary))

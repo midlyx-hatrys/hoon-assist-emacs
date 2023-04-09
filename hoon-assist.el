@@ -1,4 +1,8 @@
 ;;; -*- lexical-binding: t -*-
+(eval-when-compile
+  (or (fboundp 'libxml-parse-html-region)
+      (error "This package requires Emacs to be compiled with libxml2")))
+
 (require 'json)
 (require 'shr)
 
@@ -12,12 +16,7 @@ for the term to show information about."
   (let ((definition (hoon-assist--definition term)))
     (if (null definition)
         (message "Cannot assist with %s, sorry!" term)
-
-      (or (fboundp 'libxml-parse-html-region)
-          (error "This function requires Emacs to be compiled with libxml2"))
-
-      (pop-to-buffer (generate-new-buffer "*hoon-assist*"))
-
+      (pop-to-buffer "*hoon-assist*")
       (hoon-assist-popup-mode)
       (let ((inhibit-read-only t))
         (erase-buffer)
@@ -46,7 +45,7 @@ for the term to show information about."
 (defun hoon-assist--definition (key)
   (gethash key (hoon-assist--ensure-dictionary)))
 
-(define-derived-mode hoon-assist-popup-mode special-mode "Hoon Assist Popup"
+(define-derived-mode hoon-assist-popup-mode special-mode "Hoon Assist"
   "Mode for Hoon Assist popup help buffers."
   (setq buffer-read-only t))
 
